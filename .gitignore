@@ -1,0 +1,8 @@
+.aider*
+.env
+
+# Archivos confidenciales protegidos
+credenciales_maestras.env
+*.env
+*.log
+__pycache__/

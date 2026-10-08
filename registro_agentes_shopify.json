@@ -1,0 +1,38 @@
+[
+  {
+    "agente": "Agente eCommerce",
+    "producto": "SaaS WhatsApp Cart Recovery AI Bot",
+    "shopify_id": "gid://shopify/Product/15197493756145",
+    "precio": "49.00"
+  },
+  {
+    "agente": "Agente Mensajería & Citas",
+    "producto": "SaaS AI Booking & Deposit Engine",
+    "shopify_id": "gid://shopify/Product/15197493788913",
+    "precio": "79.00"
+  },
+  {
+    "agente": "Agente Contenido & Canva",
+    "producto": "SaaS Canva Auto-Publisher Bulk Engine",
+    "shopify_id": "gid://shopify/Product/15197493821681",
+    "precio": "39.00"
+  },
+  {
+    "agente": "Agente Pagos & Finanzas",
+    "producto": "SaaS Multi-Gateway Webhook Router",
+    "shopify_id": "gid://shopify/Product/15197493854449",
+    "precio": "49.00"
+  },
+  {
+    "agente": "Agente Infraestructura",
+    "producto": "Shopify GraphQL Python Starter Kit Pro",
+    "shopify_id": "gid://shopify/Product/15197493887217",
+    "precio": "59.00"
+  },
+  {
+    "agente": "Agente Legal & Compliance",
+    "producto": "B2B SaaS Legal Agreement & SLA Suite",
+    "shopify_id": "gid://shopify/Product/15197493919985",
+    "precio": "67.00"
+  }
+]

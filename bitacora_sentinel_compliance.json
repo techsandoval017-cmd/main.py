@@ -1,0 +1,58 @@
+{
+  "auditoria_id": "34de294b3abb",
+  "fecha_utc": "2026-09-27T06:29:19.177917Z",
+  "entidad_legal_objetivo": "Tech Sandoval LLC (New Mexico) & Operaciones SAT",
+  "evaluaciones": {
+    "seguridad_codigo": {
+      "puntuacion_seguridad": 70,
+      "tokens_hardcodeados_en_scripts": 3,
+      "observaciones": "Limpiar llaves en texto plano en scripts legacy."
+    },
+    "arquitectura_holding": {
+      "SaaS_US_LLC": {
+        "jurisdiccion": "Nuevo México, USA",
+        "enfoque": "Propiedad Intelectual, Stripe USD, Suscripciones Globales",
+        "productos": [
+          "SaaS WhatsApp Cart Recovery AI Bot",
+          "SaaS Multi-Gateway Webhook Router",
+          "Shopify GraphQL Python Starter Kit Pro"
+        ]
+      },
+      "Latam_Ops_SAT": {
+        "jurisdiccion": "México (SAT - Régimen RESICO o General)",
+        "enfoque": "Comercio Local, SPEI, Mercado Pago, Emisión CFDI 4.0",
+        "productos": [
+          "SaaS AI Booking & Deposit Engine",
+          "Multi-Currency Profit & Loss Engine"
+        ]
+      },
+      "Media_Content_IP": {
+        "jurisdiccion": "Holding Digital",
+        "enfoque": "Canva Packs, Cursos, Licencias de Derechos de Autor",
+        "productos": [
+          "SaaS Canva Auto-Publisher Bulk Engine",
+          "B2B SaaS Legal Agreement & SLA Master Suite"
+        ]
+      }
+    }
+  },
+  "requerimientos_generados": [
+    {
+      "codigo": "TOOL-SAT-01",
+      "nombre": "Agente Validador de CFDI 4.0 & Conciliador de Pagos",
+      "proposito_interno": "Automatizar la conciliación entre órdenes de Shopify y facturas electrónicas para el SAT.",
+      "monetizacion_externa": "Vender como Micro-SaaS para tiendas Shopify México ($49 USD/mes).",
+      "division": "Latam_Ops_SAT",
+      "estado": "SOLICITADO_A_PRODUCCION"
+    },
+    {
+      "codigo": "TOOL-SLA-02",
+      "nombre": "Monitor de Uptime & Despachador de SLA Automático",
+      "proposito_interno": "Monitorear webhooks de la empresa y emitir certificados de tiempo activo 99.9% para clientes corporativos.",
+      "monetizacion_externa": "SaaS B2B para desarrolladores independientes ($29 USD/mes).",
+      "division": "SaaS_US_LLC",
+      "estado": "SOLICITADO_A_PRODUCCION"
+    }
+  ],
+  "status_general": "COMPLIANCE_TIER_1_APROBADO"
+}
