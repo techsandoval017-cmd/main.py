@@ -1,0 +1,11 @@
+# TECH SANDOVAL - REQUERIMIENTOS DE INFORMACIÓN PARA ENTRENAMIENTO DE IA
+# Generado el: 2026-09-27T06:32:45.861816Z
+# Total de registros actuales: 3
+
+La IA requiere que alimentes los siguientes procedimientos para completar su aprendizaje:
+
+[ÁREA FALTANTE: stripe_pagos]
+Descripción: Captura y conciliación automática de suscripciones recurrentes USD.
+PROMPT SUGERIDO PARA AGREGAR:
+"IA, genera y documenta el procedimiento estándar de Captura y conciliación automática de suscripciones recurrentes USD. para Tech Sandoval"
+

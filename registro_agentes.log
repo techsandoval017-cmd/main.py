@@ -1,0 +1,20 @@
+nohup: ignoring input
+===================================================================
+🚀 FÁBRICA TECH SANDOVAL: PRODUCCIÓN COMPLETA DE 6 AGENTES
+===================================================================
+⚙️  Agente eCommerce ejecutando...
+❌ Agente eCommerce: HTTP Error 400: Bad Request
+⚙️  Agente Mensajeria ejecutando...
+❌ Agente Mensajeria: HTTP Error 400: Bad Request
+⚙️  Agente Pagos ejecutando...
+❌ Agente Pagos: HTTP Error 400: Bad Request
+⚙️  Agente Contenido ejecutando...
+❌ Agente Contenido: HTTP Error 400: Bad Request
+⚙️  Agente Infraestructura ejecutando...
+❌ Agente Infraestructura: HTTP Error 400: Bad Request
+⚙️  Agente Legal ejecutando...
+❌ Agente Legal: HTTP Error 400: Bad Request
+
+===================================================================
+🎯 PROCESO TERMINADO AL 100%: Revisa 'memoria_fabrica.json'
+===================================================================
