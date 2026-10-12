@@ -198,3 +198,49 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# ====================================================
+# [S-PRIME KINETIC] WEBHOOK OFICIAL DE STRIPE (FASTAPI)
+# ====================================================
+import stripe
+from fastapi import Request, HTTPException, Header
+import sqlite3
+import os
+
+@app.post("/webhook/stripe")
+async def stripe_webhook(request: Request, stripe_signature: str = Header(None)):
+    payload = await request.body()
+    webhook_secret = os.getenv('STRIPE_WEBHOOK_SECRET')
+
+    if not webhook_secret:
+        print("⚠️ Faltan credenciales STRIPE_WEBHOOK_SECRET en Railway")
+        return {"status": "error", "message": "Missing webhook secret"}
+
+    try:
+        event = stripe.Webhook.construct_event(payload, stripe_signature, webhook_secret)
+    except Exception as e:
+        print(f"❌ Firma Invalida Stripe: {e}")
+        raise HTTPException(status_code=400, detail="Invalid Stripe signature")
+
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+        order_id = session.get('id', 'desconocido')
+        customer_email = session.get('customer_details', {}).get('email', 'cliente@s-primecorp.com')
+        
+        print(f"💰 [S-PRIME] VENTA LEVEL 7 CONFIRMADA: $69 MXN de {customer_email}")
+        
+        # Guardar Licencia en Base de Datos Local de Railway
+        try:
+            con = sqlite3.connect("kinetic.db")
+            cur = con.cursor()
+            cur.execute("CREATE TABLE IF NOT EXISTS licencias (key TEXT PRIMARY KEY, status TEXT, user_id TEXT)")
+            
+            license_key = f"SPRIME-{order_id[-8:].upper()}"
+            cur.execute("INSERT OR IGNORE INTO licencias (key, status, user_id) VALUES (?, ?, ?)", (license_key, "active", customer_email))
+            con.commit()
+            con.close()
+            print(f"✅ Licencia {license_key} forjada.")
+        except Exception as e:
+            print(f"⚠️ Error BD: {e}")
+
+    return {"status": "success"}
