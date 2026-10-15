@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>S-Prime Aero | Radar de Vuelos Táctico</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: #03070b; color: #fff; font-family: 'Rajdhani', sans-serif; margin: 0; padding: 30px 15px; text-align: center; border-top: 4px solid #00d2ff; }
+        h1 { color: #00d2ff; font-size: 2.5rem; text-transform: uppercase; margin-bottom: 5px; text-shadow: 0 0 15px rgba(0,210,255,0.4); }
+        p.sub { color: #7f9fae; font-size: 1.1rem; margin-bottom: 25px; }
+        .search-panel { background: #09121a; border: 1px solid #1a3245; padding: 20px; border-radius: 8px; max-width: 900px; margin: 0 auto 25px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        input { background: #0f1c26; border: 1px solid #23425a; color: #fff; padding: 12px; border-radius: 4px; font-size: 1rem; font-family: inherit; }
+        .btn-search { background: #00d2ff; color: #000; border: none; padding: 12px 25px; font-weight: bold; font-size: 1rem; border-radius: 4px; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+        .btn-search:hover { background: #fff; box-shadow: 0 0 15px rgba(0,210,255,0.5); }
+        .results-container { max-width: 900px; margin: 0 auto; text-align: left; }
+        .route-card { background: #09121a; border: 1px solid #193245; border-left: 4px solid #00d2ff; border-radius: 6px; padding: 18px 20px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .route-info h3 { margin: 0; font-size: 1.4rem; color: #fff; }
+        .route-info p { margin: 4px 0 0; color: #8ba7b8; font-size: 0.9rem; }
+        .badge { display: inline-block; padding: 2px 7px; font-size: 0.75rem; border-radius: 3px; font-weight: bold; margin-bottom: 5px; background: rgba(57,255,20,0.15); color: #39ff14; border: 1px solid #39ff14; }
+        .price-tag { text-align: right; }
+        .price-tag h2 { margin: 0; font-size: 1.9rem; color: #00d2ff; }
+        .btn-book { background: transparent; border: 1px solid #00d2ff; color: #00d2ff; padding: 7px 15px; border-radius: 4px; text-decoration: none; display: inline-block; margin-top: 5px; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; transition: 0.25s; }
+        .btn-book:hover { background: #00d2ff; color: #000; }
+    </style>
+</head>
+<body>
+    <h1>S-PRIME AERO // RADAR TÁCTICO DE VUELOS</h1>
+    <p class="sub">Vigilancia de tarifas mínimas globales y monetización de afiliados</p>
+
+    <div class="search-panel">
+        <input type="text" id="origen" value="Tijuana" placeholder="Ciudad de Origen" style="flex:1; min-width:160px;">
+        <input type="text" id="destino" value="Mazatlán" placeholder="Ciudad Destino" style="flex:1; min-width:160px;">
+        <input type="date" id="fecha" value="2026-11-20" style="min-width:140px;">
+        <button class="btn-search" onclick="ejecutarBusqueda()">Escanear Tarifas</button>
+    </div>
+
+    <div class="results-container">
+        <h3 id="tituloResultados" style="color:#00d2ff; margin-bottom:12px; border-bottom:1px solid #1a3245; padding-bottom:6px;">Rutas Detectadas</h3>
+        <div id="listaVuelos"></div>
+    </div>
+
+    <script>
+        const baseDeRutas = [
+            { orig: "TIJUANA", dest: "MAZATLAN", origCode: "TIJ", destCode: "MZT", aero: "Volaris / VivaAerobus", dur: "2h 05m", precio: "$49 USD", tipo: "DIRECTO • TARIFA MINIMA" },
+            { orig: "TIJUANA", dest: "CANCUN", origCode: "TIJ", destCode: "CUN", aero: "Volaris", dur: "4h 15m", precio: "$78 USD", tipo: "DIRECTO • PROMO" },
+            { orig: "TIJUANA", dest: "GUADALAJARA", origCode: "TIJ", destCode: "GDL", aero: "Aeromexico / Viva", dur: "2h 45m", precio: "$55 USD", tipo: "DIRECTO" },
+            { orig: "TIJUANA", dest: "CIUDAD DE MEXICO", origCode: "TIJ", destCode: "MEX", aero: "Aeromexico", dur: "3h 10m", precio: "$62 USD", tipo: "EMPRESARIAL" },
+            { orig: "TIJUANA", dest: "BUCAREST", origCode: "TIJ", destCode: "OTP", aero: "Iberia / Tarom", dur: "17h 40m", precio: "$580 USD", tipo: "INTERCONTINENTAL • MISION" },
+            { orig: "TIJUANA", dest: "MADRID", origCode: "TIJ", destCode: "MAD", aero: "Air Europa", dur: "13h 20m", precio: "$490 USD", tipo: "TRANSATLANTICO" }
+        ];
+
+        function renderRutas(rutas, fecha) {
+            const cont = document.getElementById('listaVuelos');
+            cont.innerHTML = "";
+            rutas.forEach(r => {
+                const fParts = fecha.split('-');
+                const yymmdd = (fParts.length === 3) ? `${fParts[0].slice(2)}${fParts[1]}${fParts[2]}` : "261120";
+                const urlAffiliate = `https://www.skyscanner.com.mx/transport/flights/${r.origCode.toLowerCase()}/${r.destCode.toLowerCase()}/${yymmdd}/`;
+
+                cont.innerHTML += `
+                    <div class="route-card">
+                        <div class="route-info">
+                            <span class="badge">${r.tipo}</span>
+                            <h3>${r.orig} (${r.origCode}) ➔ ${r.dest} (${r.destCode})</h3>
+                            <p>Aerolínea: ${r.aero} | Duración: ${r.dur} | Fecha: ${fecha}</p>
+                        </div>
+                        <div class="price-tag">
+                            <h2>${r.precio}</h2>
+                            <a href="${urlAffiliate}" target="_blank" class="btn-book">Reservar Ruta</a>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function ejecutarBusqueda() {
+            const o = document.getElementById('origen').value.trim().toUpperCase();
+            const d = document.getElementById('destino').value.trim().toUpperCase();
+            const f = document.getElementById('fecha').value || "2026-11-20";
+
+            const filtradas = baseDeRutas.filter(r => {
+                const matchOrig = !o || r.orig.includes(o) || r.origCode.includes(o);
+                const matchDest = !d || r.dest.includes(d) || r.destCode.includes(d);
+                return matchOrig && matchDest;
+            });
+
+            document.getElementById('tituloResultados').innerText = `Resultados para ${o || "TODOS"} ➔ ${d || "TODOS"}`;
+            renderRutas(filtradas.length > 0 ? filtradas : baseDeRutas, f);
+        }
+
+        ejecutarBusqueda();
+    </script>
+</body>
+</html>

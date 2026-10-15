@@ -1,0 +1,348 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S-Prime Corp | Barbería de Cero a 100</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050505;
+    --bg-alt: #0b0b0b;
+    --card: #0f0f0f;
+    --text: #ffffff;
+    --muted: #a3a3a3;
+    --neon: #39ff14;
+    --border: rgba(57, 255, 20, 0.18);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  section { padding: 80px 5%; }
+  h1, h2, h3 { text-transform: uppercase; letter-spacing: 1px; line-height: 1.1; }
+  h2 { font-size: clamp(2rem, 4vw, 2.8rem); margin-bottom: 14px; }
+  h2 span, h1 span { color: var(--neon); text-shadow: 0 0 12px rgba(57, 255, 20, 0.5); }
+  .lead { color: var(--muted); max-width: 720px; margin-bottom: 40px; font-size: 1.1rem; }
+
+  /* Botones */
+  .btn {
+    display: inline-block;
+    padding: 14px 32px;
+    font-family: inherit;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: var(--neon);
+    background: transparent;
+    border: 2px solid var(--neon);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .btn:hover {
+    background: var(--neon);
+    color: #000;
+    box-shadow: 0 0 10px var(--neon), 0 0 30px rgba(57, 255, 20, 0.6), 0 0 60px rgba(57, 255, 20, 0.3);
+  }
+  .btn-solid { background: var(--neon); color: #000; }
+  .btn-solid:hover { background: #fff; border-color: #fff; box-shadow: 0 0 15px var(--neon), 0 0 40px rgba(57, 255, 20, 0.7); }
+  .btn-ghost { border-color: #555; color: var(--muted); font-size: 0.95rem; }
+  .btn-ghost:hover { border-color: var(--neon); color: #000; }
+
+  /* Navegación */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 5%;
+    background: rgba(5, 5, 5, 0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-weight: 700; font-size: 1.4rem; letter-spacing: 2px; text-transform: uppercase; }
+  .logo span { color: var(--neon); }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a { color: var(--text); text-decoration: none; text-transform: uppercase; font-weight: 600; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--neon); text-shadow: 0 0 8px var(--neon); }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+    padding-top: 120px;
+    background:
+      radial-gradient(circle at 80% 20%, rgba(57, 255, 20, 0.08), transparent 50%),
+      var(--bg);
+  }
+  .hero h1 { font-size: clamp(2.6rem, 6vw, 4.8rem); margin-bottom: 20px; }
+  .hero p { color: var(--muted); font-size: 1.2rem; margin-bottom: 32px; }
+  .video-placeholder {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 0 40px rgba(57, 255, 20, 0.08);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .play-icon {
+    width: 70px; height: 70px;
+    border: 2px solid var(--neon);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+    margin-right: 14px;
+  }
+  .play-icon::after {
+    content: ""; border-style: solid; border-width: 12px 0 12px 20px;
+    border-color: transparent transparent transparent var(--neon); margin-left: 5px;
+  }
+
+  /* Kits */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 36px 30px;
+    display: flex; flex-direction: column; gap: 16px;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  }
+  .card:hover { transform: translateY(-6px); border-color: var(--neon); box-shadow: 0 0 25px rgba(57, 255, 20, 0.25); }
+  .card .tag { color: var(--neon); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+  .card h3 { font-size: 1.6rem; }
+  .card ul { list-style: none; color: var(--muted); flex: 1; }
+  .card ul li::before { content: "▸ "; color: var(--neon); }
+  .card .price { font-size: 2rem; font-weight: 700; }
+  .card .btn { text-align: center; }
+  .card .btn-group { display: flex; flex-direction: column; gap: 12px; margin-top: auto; }
+  .disclosure { font-size: 0.8rem; color: #666; line-height: 1.4; }
+
+  /* Software */
+  .split { display: grid; grid-template-columns: 1.1fr 1fr; gap: 50px; align-items: center; }
+  .software-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 40px;
+  }
+  .software-box .terms {
+    margin-top: 22px;
+    padding: 18px;
+    border-left: 3px solid var(--neon);
+    background: rgba(57, 255, 20, 0.04);
+    color: #ddd;
+    font-size: 1.05rem;
+  }
+  .feature-list { list-style: none; margin: 24px 0 30px; color: var(--muted); }
+  .feature-list li { padding: 6px 0; border-bottom: 1px solid #1a1a1a; }
+  .feature-list li::before { content: "✔ "; color: var(--neon); }
+
+  /* Certificación */
+  .cert-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+  .diploma {
+    aspect-ratio: 1.414 / 1;
+    background: linear-gradient(135deg, #0a0a0a, #151515);
+    border: 2px solid var(--neon);
+    border-radius: 6px;
+    padding: 6%;
+    display: flex; flex-direction: column; justify-content: space-between;
+    box-shadow: 0 0 30px rgba(57, 255, 20, 0.2), inset 0 0 40px rgba(57, 255, 20, 0.05);
+    position: relative;
+  }
+  .diploma-title { font-size: clamp(0.9rem, 2.5vw, 1.4rem); color: var(--neon); text-transform: uppercase; letter-spacing: 3px; text-align: center; }
+  .diploma-name { font-size: clamp(1.2rem, 3.5vw, 2rem); text-align: center; font-weight: 700; border-bottom: 1px dashed #333; padding-bottom: 6px; }
+  .diploma-footer { display: flex; justify-content: space-between; align-items: flex-end; }
+  .diploma-footer small { color: var(--muted); font-size: clamp(0.6rem, 1.4vw, 0.8rem); }
+  .qr {
+    width: clamp(50px, 12vw, 80px); aspect-ratio: 1;
+    background:
+      repeating-conic-gradient(#000 0% 25%, #fff 0% 50%) 50% / 20% 20%;
+    border: 4px solid #fff;
+  }
+  .cert-text ul { list-style: none; margin: 20px 0 30px; color: var(--muted); }
+  .cert-text ul li::before { content: "◆ "; color: var(--neon); }
+
+  /* Banner */
+  .banner {
+    background: linear-gradient(90deg, #050505, #0c1a08, #050505);
+    border-top: 1px solid var(--neon);
+    border-bottom: 1px solid var(--neon);
+    text-align: center;
+  }
+  .banner h2 { margin-bottom: 10px; }
+  .banner p { color: var(--muted); margin-bottom: 28px; }
+  .badge {
+    display: inline-block;
+    background: var(--neon); color: #000;
+    padding: 4px 14px; font-weight: 700; margin-bottom: 18px;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+
+  footer {
+    padding: 36px 5%;
+    text-align: center;
+    color: #555;
+    font-size: 0.9rem;
+    border-top: 1px solid #111;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .hero, .split, .cert-wrap { grid-template-columns: 1fr; }
+    .hero { padding-top: 130px; text-align: center; }
+    .hero .video-placeholder { order: 2; }
+    .cert-wrap .diploma { order: -1; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 480px) {
+    section { padding: 60px 5%; }
+    .btn { width: 100%; padding: 14px 16px; }
+    .software-box { padding: 26px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">S-<span>Prime</span> Corp</div>
+  <ul class="nav-links">
+    <li><a href="#kits">Kits</a></li>
+    <li><a href="#software">Software</a></li>
+    <li><a href="#certificacion">Certificación</a></li>
+    <li><a href="#banner">Ecosistema</a></li>
+  </ul>
+</nav>
+
+<!-- 1. HERO -->
+<section class="hero">
+  <div>
+    <h1>Domina el negocio de la <span>barbería</span> de cero a 100</h1>
+    <p>Sistema completo para emprender, gestionar y escalar tu barbería con herramientas profesionales desde el primer día.</p>
+    <a href="#kits" class="btn btn-solid">Comprar Kit Completo</a>
+  </div>
+  <div class="video-placeholder">
+    <div style="display:flex;align-items:center;">
+      <div class="play-icon"></div>
+      <span>Video de demostración</span>
+    </div>
+  </div>
+</section>
+
+<!-- 2. KITS -->
+<section id="kits">
+  <h2>Kits de <span>Herramientas</span></h2>
+  <p class="lead">Elige el nivel con el que quieres empezar. Ambos incluyen material práctico y acceso a la comunidad.</p>
+  <div class="grid">
+    <div class="card">
+      <span class="tag">Nivel 1</span>
+      <h3>Kit Mi Primer Proyecto</h3>
+      <ul>
+        <li>Plan de negocio para barbería</li>
+        <li>Checklist de apertura</li>
+        <li>Plantillas de precios y servicios</li>
+      </ul>
+      <div class="price">$XX.XX</div>
+      <div class="btn-group">
+        <a href="#" class="btn btn-solid">Comprar</a>
+      </div>
+    </div>
+    <div class="card">
+      <span class="tag">Nivel 2 · Recomendado</span>
+      <h3>Kit Negocio 0 a 100</h3>
+      <ul>
+        <li>Todo lo del Kit Mi Primer Proyecto</li>
+        <li>Estrategia de captación de clientes</li>
+        <li>Sistema de fidelización y reservas</li>
+        <li>Métricas de rentabilidad mensual</li>
+      </ul>
+      <div class="price">$XX.XX</div>
+      <div class="btn-group">
+        <a href="#" class="btn btn-solid">Comprar</a>
+        <a href="#" class="btn btn-ghost" rel="sponsored noopener" target="_blank">Ver opciones de financiamiento</a>
+        <p class="disclosure">Enlace de afiliado: podemos recibir una comisión si contratas un producto financiero a través de este enlace. Revisa las condiciones antes de decidir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. SOFTWARE -->
+<section id="software" style="background: var(--bg-alt);">
+  <div class="split">
+    <div>
+      <h2>Golden <span>Suite</span></h2>
+      <p class="lead" style="margin-bottom:0">Software de gestión diseñado para barberías: agenda, caja, inventario y clientes en un solo panel.</p>
+      <ul class="feature-list">
+        <li>Agenda y reservas online</li>
+        <li>Control de caja e inventario</li>
+        <li>Historial de clientes y fidelización</li>
+        <li>Reportes de rendimiento</li>
+      </ul>
+      <a href="#" class="btn btn-solid">Suscribirme a Golden Suite</a>
+    </div>
+    <div class="software-box">
+      <h3>Condiciones de suscripción</h3>
+      <div class="terms">
+        Pago a mensualidades. Incluye sistema anti-fraude: soporte total garantizado mientras tu suscripción esté activa.
+      </div>
+      <p class="disclosure" style="margin-top:18px">Si la suscripción se cancela o un pago no se procesa, el acceso al software se suspende. Tus datos se conservan y puedes reactivarlo en cualquier momento.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. CERTIFICACIÓN -->
+<section id="certificacion">
+  <div class="cert-wrap">
+    <div class="diploma" role="img" aria-label="Mockup de diploma físico con código QR">
+      <div class="diploma-title">Certificado de Graduación</div>
+      <div class="diploma-name">Nombre del Alumno</div>
+      <div class="diploma-footer">
+        <small>S-Prime Corp<br>Barbería de Cero a 100</small>
+        <div class="qr"></div>
+      </div>
+    </div>
+    <div class="cert-text">
+      <h2>Certificación <span>QR</span></h2>
+      <p class="lead" style="margin-bottom:0">Cada graduado recibe un diploma físico con un código QR único.</p>
+      <ul>
+        <li>Escanéalo y accede al portafolio de proyectos del alumno</li>
+        <li>Muestra los negocios y resultados que construyó</li>
+        <li>Demuestra tu experiencia a clientes e inversionistas</li>
+      </ul>
+      <a href="#kits" class="btn">Quiero mi certificación</a>
+    </div>
+  </div>
+</section>
+
+<!-- 5. BANNER -->
+<section id="banner" class="banner">
+  <span class="badge">Beneficio para graduados</span>
+  <h2>Descuento del <span>20%</span> en ecosistemas Obsidian Prime</h2>
+  <p>Disponible al completar tu graduación en S-Prime Corp.</p>
+  <a href="#" class="btn btn-solid">Reclamar mi descuento</a>
+</section>
+
+<footer>
+  © 2026 S-Prime Corp. Todos los derechos reservados.
+</footer>
+
+</body>
+</html>

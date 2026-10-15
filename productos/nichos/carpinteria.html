@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academia Maderera | Rango S</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       VARIABLES Y DESIGN TOKENS
+       ========================================================================== */
+    :root {
+      /* Paleta Principal */
+      --color-nogal-900: #140b07;
+      --color-nogal-800: #23140f;
+      --color-nogal-700: #382119;
+      --color-nogal-600: #4e2f24;
+      
+      --color-ambar-500: #ffaa00;
+      --color-ambar-400: #ffbe33;
+      --color-ambar-glow: rgba(255, 170, 0, 0.25);
+
+      --color-neon-green: #00ff88;
+      --color-neon-glow: rgba(0, 255, 136, 0.4);
+
+      --color-surface: #1e110b;
+      --color-border: #4a2d21;
+      --color-text-main: #f5ede8;
+      --color-text-muted: #a38d83;
+
+      /* Tipografía y Efectos */
+      --font-primary: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --transition-base: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ==========================================================================
+       RESET Y BASE
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--color-nogal-900);
+      color: var(--color-text-main);
+      font-family: var(--font-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1rem;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(255, 170, 0, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 10% 100%, rgba(0, 255, 136, 0.04) 0%, transparent 40%);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 960px;
+    }
+
+    /* ==========================================================================
+       HEADER & TÍTULO
+       ========================================================================== */
+    .header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .header__tag {
+      font-family: var(--font-mono);
+      color: var(--color-neon-green);
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+    }
+
+    .header__title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #fff;
+    }
+
+    .header__title span {
+      color: var(--color-ambar-500);
+    }
+
+    /* ==========================================================================
+       BARRA DE NIVELES (E a S)
+       ========================================================================== */
+    .level-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .level-card__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .level-card__title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--color-text-main);
+    }
+
+    .level-card__badge {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--color-neon-green);
+      background: rgba(0, 255, 136, 0.1);
+      border: 1px solid var(--color-neon-green);
+      padding: 0.35rem 0.75rem;
+      border-radius: 99px;
+      box-shadow: 0 0 10px var(--color-neon-glow);
+    }
+
+    .rank-bar-wrapper {
+      position: relative;
+      margin: 1.5rem 0 2rem 0;
+    }
+
+    .rank-track {
+      background: var(--color-nogal-800);
+      height: 8px;
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .rank-progress {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--color-ambar-500), var(--color-neon-green));
+      width: 0%;
+      transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 0 12px var(--color-neon-green);
+    }
+
+    .rank-steps {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin-top: -16px;
+    }
+
+    .rank-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .rank-node {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--color-nogal-900);
+      border: 3px solid var(--color-nogal-600);
+      transition: var(--transition-base);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rank-label {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      transition: var(--transition-base);
+    }
+
+    /* Estados Activos del Rango */
+    .rank-step.active .rank-node {
+      background: var(--color-neon-green);
+      border-color: #fff;
+      box-shadow: 0 0 15px var(--color-neon-green);
+      transform: scale(1.15);
+    }
+
+    .rank-step.active .rank-label {
+      color: var(--color-neon-green);
+      transform: translateY(2px);
+    }
+
+    .rank-step.passed .rank-node {
+      border-color: var(--color-ambar-500);
+      background: var(--color-ambar-500);
+    }
+
+    /* ==========================================================================
+       GRID DE TARJETAS
+       ========================================================================== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-nogal-800) 100%);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 2.25rem 2rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      transition: var(--transition-base);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--color-ambar-500), transparent);
+      opacity: 0.4;
+      transition: var(--transition-base);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: var(--color-ambar-400);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6), 0 0 25px var(--color-ambar-glow);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+      height: 4px;
+      background: linear-gradient(90deg, var(--color-ambar-500), var(--color-neon-green));
+    }
+
+    .card__indicator {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--color-ambar-500);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card__indicator::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background: var(--color-ambar-500);
+      border-radius: 50%;
+    }
+
+    .card__title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .card__description {
+      color: var(--color-text-muted);
+      line-height: 1.6;
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    .card__footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 1.25rem;
+    }
+
+    .card__spec {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--color-neon-green);
+    }
+
+    .btn {
+      appearance: none;
+      border: none;
+      outline: none;
+      background: var(--color-nogal-700);
+      color: var(--color-text-main);
+      padding: 0.6rem 1.2rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition-base);
+    }
+
+    .card:hover .btn {
+      background: var(--color-neon-green);
+      color: var(--color-nogal-900);
+      font-weight: 700;
+      box-shadow: 0 0 15px var(--color-neon-glow);
+    }
+  </style>
+</head>
+<body>
+
+  <main class="container">
+    <!-- Header -->
+    <header class="header">
+      <span class="header__tag">Plataforma Técnica de Élite</span>
+      <h1 class="header__title">Academia <span>Maderera</span></h1>
+    </header>
+
+    <!-- Barra de Rango Dinámica -->
+    <section class="level-card" aria-label="Progreso de Rango">
+      <div class="level-card__header">
+        <h2 class="level-card__title">Nivel de Maestría</h2>
+        <span class="level-card__badge" id="rankBadge">Rango S</span>
+      </div>
+
+      <div class="rank-bar-wrapper">
+        <div class="rank-track">
+          <div class="rank-progress" id="progressBar"></div>
+        </div>
+        <div class="rank-steps" id="rankStepsContainer">
+          <!-- Generado Dinámicamente -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Tarjetas de Módulos -->
+    <section class="cards-grid">
+      <!-- Tarjeta 1 -->
+      <article class="card">
+        <div>
+          <div class="card__indicator">Optimización y Rentabilidad</div>
+          <h3 class="card__title">Software Costeo</h3>
+          <p class="card__description">
+            Algoritmos precisos de cálculo de desperdicio en corte, estimación de tableros, acabados y tiempos de mano de obra por ensamble.
+          </p>
+        </div>
+        <div class="card__footer">
+          <span class="card__spec">[DESPIECE V4.2]</span>
+          <button class="btn" type="button">Ejecutar</button>
+        </div>
+      </article>
+
+      <!-- Tarjeta 2 -->
+      <article class="card">
+        <div>
+          <div class="card__indicator">Ingeniería Paramétrica</div>
+          <h3 class="card__title">Planos 3D</h3>
+          <p class="card__description">
+            Modelado estructural con tolerancias mecánicas, despieces axonométricos interactivos y visualización fotorrealista de vetas en Nogal.
+          </p>
+        </div>
+        <div class="card__footer">
+          <span class="card__spec">[CAD RENDERS]</span>
+          <button class="btn" type="button">Ver Modelos</button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    /**
+     * MÓDULO: Control de Rango y Progresión
+     * Arquitectura limpia en Vanilla JS
+     */
+    (() => {
+      'use strict';
+
+      const RANKS = ['E', 'D', 'C', 'B', 'A', 'S'];
+      let currentRankIndex = 5; // Inicia en 'S' por defecto
+
+      // Elementos del DOM
+      const progressBar = document.getElementById('progressBar');
+      const rankBadge = document.getElementById('rankBadge');
+      const stepsContainer = document.getElementById('rankStepsContainer');
+
+      const renderSteps = () => {
+        stepsContainer.innerHTML = '';
+        RANKS.forEach((rank, idx) => {
+          const stepEl = document.createElement('div');
+          stepEl.className = 'rank-step';
+          stepEl.setAttribute('role', 'button');
+          stepEl.setAttribute('aria-label', `Seleccionar Rango ${rank}`);
+          stepEl.dataset.index = idx;
+
+          stepEl.innerHTML = `
+            <div class="rank-node"></div>
+            <span class="rank-label">${rank}</span>
+          `;
+
+          stepEl.addEventListener('click', () => setRank(idx));
+          stepsContainer.appendChild(stepEl);
+        });
+      };
+
+      const setRank = (targetIndex) => {
+        currentRankIndex = targetIndex;
+        const totalSteps = RANKS.length - 1;
+        const percentage = (targetIndex / totalSteps) * 100;
+
+        // Actualizar barra de progreso
+        progressBar.style.width = `${percentage}%`;
+
+        // Actualizar etiqueta
+        rankBadge.textContent = `Rango ${RANKS[targetIndex]}`;
+
+        // Actualizar clases de los nodos
+        const steps = stepsContainer.querySelectorAll('.rank-step');
+        steps.forEach((step, idx) => {
+          step.classList.toggle('active', idx === targetIndex);
+          step.classList.toggle('passed', idx < targetIndex);
+        });
+      };
+
+      // Inicialización
+      renderSteps();
+      // Pequeño retardo para animar la carga inicial
+      setTimeout(() => setRank(currentRankIndex), 100);
+    })();
+  </script>
+</body>
+</html>

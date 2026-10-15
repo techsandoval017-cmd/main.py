@@ -1,8 +1,5 @@
-nohup: ignoring input
-127.0.0.1 - - [27/Sep/2026 05:15:19] "GET / HTTP/1.1" 200 -
-127.0.0.1 - - [27/Sep/2026 05:15:26] "GET /favicon.ico HTTP/1.1" 200 -
-127.0.0.1 - - [27/Sep/2026 05:15:50] "GET / HTTP/1.1" 200 -
-127.0.0.1 - - [27/Sep/2026 05:15:52] "GET /favicon.ico HTTP/1.1" 200 -
-127.0.0.1 - - [27/Sep/2026 05:16:27] "POST /api/orden HTTP/1.1" 200 -
-127.0.0.1 - - [27/Sep/2026 05:17:05] "GET / HTTP/1.1" 200 -
-127.0.0.1 - - [27/Sep/2026 05:17:05] "GET /favicon.ico HTTP/1.1" 200 -
+nohup: no se tendrá en cuenta la entrada
+Traceback (most recent call last):
+  File "/home/maiky/sprime_cloud_core/servidor_maestro.py", line 1, in <module>
+    from fastapi import FastAPI, Request, Header, HTTPException
+ModuleNotFoundError: No module named 'fastapi'

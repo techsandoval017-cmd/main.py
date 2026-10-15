@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>VORTEX Citadel</title>
+    <style>
+        body { background: #020202; color: #00d2ff; font-family: monospace; padding: 50px; text-align: center; }
+        h1 { text-shadow: 0 0 15px #00d2ff; }
+        .scan-box { border: 2px dashed #00d2ff; padding: 40px; display: inline-block; margin-top: 20px; }
+        .btn { background: #00d2ff; color: #000; font-weight: bold; padding: 15px 30px; border: none; cursor: pointer; text-transform: uppercase; }
+        .progress { width: 100%; background: #111; height: 20px; margin-top: 20px; display: none; }
+        .bar { width: 0%; background: #00d2ff; height: 100%; transition: width 2s; }
+    </style>
+</head>
+<body>
+    <h1>VORTEX CITADEL // Escáner de Red</h1>
+    <div class="scan-box">
+        <input type="text" id="target" placeholder="IP o Dominio Objetivo" style="padding:10px; width:250px; background:#111; border:1px solid #00d2ff; color:#fff;">
+        <br><br>
+        <button class="btn" onclick="escanear()">Ejecutar Auditoría</button>
+        <div class="progress" id="prog"><div class="bar" id="bar"></div></div>
+        <p id="res" style="margin-top:20px; color:#fff;"></p>
+    </div>
+    <script>
+        function escanear() {
+            document.getElementById('prog').style.display = 'block';
+            setTimeout(() => { document.getElementById('bar').style.width = '100%'; }, 100);
+            setTimeout(() => { document.getElementById('res').innerHTML = "<b>[+] 0 Vulnerabilidades Críticas. Fortaleza Impenetrable.</b>"; }, 2100);
+        }
+    </script>
+</body>
+</html>

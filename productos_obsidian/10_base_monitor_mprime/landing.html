@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base Elevadora M-Prime | Obsidian Smart Spaces</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --obsidian-red: #ff003c; --bg-dark: #050505; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Rajdhani', sans-serif; }
+        body { background: var(--bg-dark); color: #fff; line-height: 1.6; }
+        .hero { height: 100vh; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at center, #1a0005 0%, #000 80%); padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,0,60,0.2); }
+        .hero-content { max-width: 800px; }
+        .badge { background: rgba(255,0,60,0.1); color: var(--obsidian-red); padding: 8px 16px; border: 1px solid var(--obsidian-red); border-radius: 20px; font-weight: bold; letter-spacing: 2px; margin-bottom: 20px; display: inline-block; }
+        h1 { font-size: 3.5rem; text-transform: uppercase; margin-bottom: 15px; text-shadow: 0 0 20px rgba(255,0,60,0.4); }
+        p.subtitle { font-size: 1.2rem; color: #aaa; margin-bottom: 40px; }
+        .price-tag { font-size: 2.5rem; font-weight: bold; color: #fff; margin-bottom: 30px; }
+        .btn-checkout { background: var(--obsidian-red); color: #fff; padding: 20px 50px; font-size: 1.5rem; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; text-transform: uppercase; box-shadow: 0 0 30px rgba(255,0,60,0.5); transition: 0.3s; width: 100%; max-width: 400px; }
+        .btn-checkout:hover { background: #fff; color: var(--obsidian-red); box-shadow: 0 0 40px #fff; }
+        .features { padding: 80px 20px; max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .feature-box { background: #0a0a0a; border: 1px solid #222; padding: 30px; border-radius: 8px; }
+        .feature-box h3 { color: var(--obsidian-red); font-size: 1.5rem; margin-bottom: 15px; }
+        .feature-box p { color: #888; }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="hero-content">
+            <div class="badge">MANUFACTURA 3D ON-DEMAND</div>
+            <h1>Base Elevadora M-Prime</h1>
+            <p class="subtitle">Soporte de monitor modular de grado industrial con ranuras para exhibir miniaturas.</p>
+            <div class="price-tag">$90.00 USD</div>
+            <button class="btn-checkout">Adquirir Ahora</button>
+        </div>
+    </div>
+    <div class="features">
+        <div class="feature-box"><h3>Acero y Polímero</h3><p>Alma de aluminio recubierta por piezas texturizadas impresas en 3D.</p></div>
+        <div class="feature-box"><h3>Ranuras de Exhibición</h3><p>Espacios iluminados integrados para colocar tus figuras de colección Rango S.</p></div>
+        <div class="feature-box"><h3>Ergonomía</h3><p>Eleva el monitor 12cm, previniendo fatiga cervical en jornadas largas.</p></div>
+    </div>
+</body>
+</html>

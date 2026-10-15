@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barbería de 0 a 100 | Landing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050505;
+    --card: #0c0c0c;
+    --text: #ffffff;
+    --muted: #9a9a9a;
+    --neon: #39ff14;
+    --border: rgba(57, 255, 20, 0.2);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 1.05rem;
+  }
+  a { color: inherit; }
+  h1, h2, h3 { text-transform: uppercase; letter-spacing: 1px; line-height: 1.15; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+  .neon { color: var(--neon); text-shadow: 0 0 10px rgba(57, 255, 20, 0.45); }
+
+  /* Botones */
+  .btn {
+    display: inline-block;
+    padding: 13px 26px;
+    font-family: inherit;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    text-align: center;
+    color: var(--neon);
+    background: transparent;
+    border: 2px solid var(--neon);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .btn:hover, .btn:focus-visible {
+    background: var(--neon);
+    color: #000;
+    box-shadow: 0 0 10px var(--neon), 0 0 30px rgba(57, 255, 20, 0.5);
+  }
+  .btn-solid { background: var(--neon); color: #000; }
+  .btn-solid:hover { background: #fff; border-color: #fff; }
+  .btn-block { display: block; width: 100%; }
+  .btn-alt {
+    border-color: #444;
+    color: var(--muted);
+    font-size: 0.95rem;
+    text-transform: none;
+    font-weight: 600;
+  }
+  .btn-alt:hover { border-color: var(--neon); color: #000; }
+
+  /* Navegación */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(5, 5, 5, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  header .wrap {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 16px; padding-bottom: 16px;
+  }
+  .logo { font-weight: 700; font-size: 1.4rem; letter-spacing: 2px; text-transform: uppercase; }
+  nav ul { display: flex; gap: 24px; list-style: none; }
+  nav a { text-decoration: none; text-transform: uppercase; font-weight: 600; }
+  nav a:hover { color: var(--neon); }
+
+  /* Hero */
+  .hero { padding: 80px 0 60px; }
+  .hero h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); margin-bottom: 18px; }
+  .hero p { color: var(--muted); max-width: 640px; margin-bottom: 30px; }
+
+  /* Secciones */
+  section { padding: 60px 0; }
+  .section-title { font-size: clamp(1.9rem, 4vw, 2.6rem); margin-bottom: 12px; }
+  .lead { color: var(--muted); max-width: 680px; margin-bottom: 36px; }
+
+  /* Layout principal con barra lateral */
+  .layout { display: grid; grid-template-columns: 1fr 320px; gap: 36px; align-items: start; }
+
+  /* Tarjetas */
+  .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 30px 26px;
+    display: flex; flex-direction: column; gap: 14px;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  }
+  .card:hover { transform: translateY(-4px); border-color: var(--neon); box-shadow: 0 0 22px rgba(57, 255, 20, 0.2); }
+  .tag { color: var(--neon); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+  .card h3 { font-size: 1.5rem; }
+  .card ul { list-style: none; color: var(--muted); flex: 1; }
+  .card li::before { content: "▸ "; color: var(--neon); }
+  .price { font-size: 1.9rem; font-weight: 700; }
+  .note { font-size: 0.85rem; color: var(--muted); }
+  .disclosure { font-size: 0.8rem; color: #6b6b6b; line-height: 1.4; }
+
+  /* Software */
+  .software {
+    background: #080808;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 36px 30px;
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 36px; align-items: center;
+  }
+  .software ul { list-style: none; color: var(--muted); margin: 18px 0 24px; }
+  .software li { padding: 6px 0; border-bottom: 1px solid #1a1a1a; }
+  .software li::before { content: "✔ "; color: var(--neon); }
+  .legal-box {
+    padding: 18px;
+    border-left: 3px solid var(--neon);
+    background: rgba(57, 255, 20, 0.04);
+    color: #ddd;
+  }
+
+  /* Barra lateral: progreso */
+  aside.progress {
+    position: sticky; top: 100px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 26px 22px;
+  }
+  aside.progress h3 { font-size: 1.3rem; margin-bottom: 4px; }
+  .example-label { font-size: 0.8rem; color: #6b6b6b; margin-bottom: 18px; }
+  .level-list { list-style: none; }
+  .level-list li {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 12px;
+    border: 1px solid #1c1c1c;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .level-list li.done { border-color: var(--border); color: var(--text); }
+  .level-list li.current { border-color: var(--neon); color: var(--neon); box-shadow: 0 0 12px rgba(57, 255, 20, 0.2); }
+  .level-list li.locked { opacity: 0.5; }
+  .bar-bg { background: #1a1a1a; height: 10px; border-radius: 6px; overflow: hidden; margin: 14px 0 6px; }
+  .bar-fill { background: linear-gradient(90deg, #1f8a0c, var(--neon)); height: 100%; }
+  .bar-text { font-size: 0.85rem; color: var(--muted); }
+
+  /* Financiamiento */
+  .finance {
+    margin-top: 28px;
+    padding: 24px;
+    border: 1px dashed #333;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .finance p { color: var(--muted); font-size: 0.9rem; margin-top: 12px; }
+
+  footer {
+    padding: 30px 0;
+    border-top: 1px solid #111;
+    color: #555;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .layout, .software { grid-template-columns: 1fr; }
+    aside.progress { position: static; }
+    nav { display: none; }
+  }
+  @media (max-width: 480px) {
+    .btn { width: 100%; padding: 13px 14px; }
+    .hero { padding: 50px 0 40px; }
+    .software { padding: 26px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo">Barbería <span class="neon">0 a 100</span></div>
+    <nav>
+      <ul>
+        <li><a href="#kits">Kits</a></li>
+        <li><a href="#software">Software</a></li>
+        <li><a href="#financiamiento">Financiamiento</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>Aprende a <span class="neon">dirigir una barbería</span> de 0 a 100</h1>
+    <p>Un programa práctico para planear, abrir y administrar tu barbería, con herramientas de gestión y seguimiento de tu avance.</p>
+    <a href="#kits" class="btn btn-solid">Ver kits de inicio</a>
+  </div>
+
+  <div class="layout">
+
+    <div>
+      <!-- KITS -->
+      <section id="kits">
+        <h2 class="section-title">Kits de <span class="neon">inicio</span></h2>
+        <p class="lead">Elige el nivel con el que quieres comenzar. Los precios se muestran en la tienda.</p>
+
+        <div class="grid-cards">
+          <div class="card">
+            <span class="tag">Nivel 1</span>
+            <h3>Kit de Inicio</h3>
+            <ul>
+              <li>Plantilla de plan de negocio</li>
+              <li>Checklist de apertura</li>
+              <li>Plantilla de precios de servicios</li>
+            </ul>
+            <div class="price">$29.00</div>
+            <a href="#" class="btn btn-solid btn-block">Comprar Kit de Inicio</a>
+          </div>
+
+          <div class="card">
+            <span class="tag">Nivel 2</span>
+            <h3>Golden Suite Software</h3>
+            <ul>
+              <li>Agenda y reservas</li>
+              <li>Control de caja e inventario</li>
+              <li>Historial de clientes</li>
+            </ul>
+            <div class="price">$19.00 <small style="font-size:0.9rem;color:var(--muted)">/ mes</small></div>
+            <p class="note">Acceso sujeto a pago de suscripción mensual.</p>
+            <a href="#" class="btn btn-solid btn-block">Suscribirme</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- SOFTWARE -->
+      <section id="software">
+        <h2 class="section-title">Golden <span class="neon">Suite</span></h2>
+        <p class="lead">Software de gestión para barberías. Consulta las condiciones de suscripción antes de contratar.</p>
+        <div class="software">
+          <div>
+            <h3>Qué incluye</h3>
+            <ul>
+              <li>Agenda y reservas en línea</li>
+              <li>Control de caja e inventario</li>
+              <li>Seguimiento de clientes</li>
+              <li>Reportes básicos de operación</li>
+            </ul>
+            <a href="#" class="btn btn-alt">Ver condiciones completas</a>
+          </div>
+          <div class="legal-box">
+            <strong>Condiciones de acceso</strong>
+            <p style="margin-top:8px;">Acceso sujeto a pago de suscripción mensual. El servicio puede suspenderse si la suscripción se cancela o un pago no se procesa.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FINANCIAMIENTO -->
+      <section id="financiamiento" style="padding-top:20px;">
+        <div class="finance">
+          <a href="#" class="btn btn-alt" rel="sponsored noopener" target="_blank">¿Falta de liquidez? Explora opciones de financiamiento Tech (Sujeto a aprobación por entidades de terceros)</a>
+          <p>Enlace de afiliado: podemos recibir una comisión si contratas a través de este enlace. Las condiciones y la aprobación dependen exclusivamente de la entidad financiera.</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- BARRA LATERAL: PROGRESO -->
+    <aside class="progress">
+      <h3>Progreso de <span class="neon">Estudiante</span></h3>
+      <p class="example-label">Ejemplo ilustrativo de la maqueta</p>
+
+      <ul class="level-list">
+        <li class="done"><span>Nivel E</span><span>Completado</span></li>
+        <li class="done"><span>Nivel D</span><span>Completado</span></li>
+        <li class="current"><span>Nivel C</span><span>En curso</span></li>
+        <li class="locked"><span>Nivel B</span><span>Bloqueado</span></li>
+        <li class="locked"><span>Nivel A</span><span>Bloqueado</span></li>
+        <li class="locked"><span>Rango S</span><span>Bloqueado</span></li>
+      </ul>
+
+      <div class="bar-bg"><div class="bar-fill" style="width: 45%;"></div></div>
+      <p class="bar-text">45% del programa completado</p>
+    </aside>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    © 2026 Barbería de 0 a 100. Todos los derechos reservados.
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S-PRIME KINETIC | Imperio Tecnológico Rango S</title>
+    <style>
+        :root {
+            --bg-void: #030507;
+            --bg-panel: #091216;
+            --accent-green: #39ff14;
+            --accent-red: #d30000;
+            --text-main: #E2E8F0;
+            --text-muted: #6b8a7a;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-void); color: var(--text-main); padding: 40px; }
+        header { text-align: center; margin-bottom: 50px; border-bottom: 1px solid rgba(57,255,20,0.2); padding-bottom: 30px; }
+        h1 { font-size: 3rem; color: #fff; letter-spacing: 3px; }
+        h1 span { color: var(--accent-green); }
+        .subtitle { color: var(--text-muted); font-size: 1.2rem; margin-top: 10px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .card { background: var(--bg-panel); border: 1px solid rgba(57,255,20,0.3); border-radius: 12px; padding: 35px; position: relative; }
+        .card.obsidian { border-color: var(--accent-red); }
+        .badge { background: rgba(57,255,20,0.1); color: var(--accent-green); padding: 6px 14px; font-size: 0.85rem; border-radius: 20px; font-weight: bold; display: inline-block; margin-bottom: 20px; }
+        .card.obsidian .badge { background: rgba(211,0,0,0.1); color: var(--accent-red); }
+        h3 { font-size: 1.6rem; color: #fff; margin-bottom: 15px; }
+        p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 25px; }
+        .price { font-size: 2rem; font-weight: bold; color: #fff; margin-bottom: 25px; }
+        .price span { font-size: 0.9rem; color: var(--text-muted); }
+        .btn { display: block; width: 100%; background: var(--accent-green); color: #030507; text-align: center; padding: 14px; font-weight: bold; text-decoration: none; border-radius: 6px; }
+        .card.obsidian .btn { background: var(--accent-red); color: #fff; }
+        footer { text-align: center; margin-top: 80px; color: var(--text-muted); font-size: 0.9rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>S-PRIME <span>KINETIC CORP</span></h1>
+        <p class="subtitle">Ecosistema Autónomo de Alta Ingeniería & Licenciamiento Rango S</p>
+    </header>
+
+    <div class="grid">
+        <!-- TIER 1 -->
+        <div class="card">
+            <span class="badge">DIVISIÓN TIER 1: RETO LEVEL 7</span>
+            <h3>S-Prime Core & Academias</h3>
+            <p class="desc">Acceso inmediato a herramientas de automatización base, guías financieras de alta liquidez y despliegue exprés de software comercial.</p>
+            <div class="price">$69 MXN <span>/ acceso</span></div>
+            <a href="https://buy.stripe.com/test_placeholder_tier1" class="btn">Adquirir Nivel 1</a>
+        </div>
+
+        <!-- TIER 2 & 3: VERTICALES -->
+        <div class="card">
+            <span class="badge">DIVISIÓN TIER 2 & 3: VERTICALES</span>
+            <h3>Dark Kitchens & Talleres VIP</h3>
+            <p class="desc">Sistemas multimarca con comanda automatizada por WhatsApp, check-in fotográfico para talleres y arbitraje B2B con marca blanca vía Stripe.</p>
+            <div class="price">$85 USD <span>/ mes</span></div>
+            <a href="https://buy.stripe.com/test_placeholder_verticales" class="btn">Desplegar Sistema</a>
+        </div>
+
+        <!-- OBSIDIAN ÉLITE -->
+        <div class="card obsidian">
+            <span class="badge">DIVISIÓN ÉLITE OBSIDIAN</span>
+            <h3>Obsidian Enterprise Core</h3>
+            <p class="desc">Desarrollo a medida, integración de hardware industrial y agentes locales con seguridad de grado militar. Exclusivo para fundadores Rango S.</p>
+            <div class="price">A Medida <span>/ Proyecto</span></div>
+            <a href="mailto:obsidian@s-primecorp.com" class="btn">Solicitar Acceso Élite</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>// DOCTRINA SAIYAJIN RANGO S: Cero regalar trabajo, márgenes limpios desde el Día 1. // S-PRIME CORP 2026</p>
+    </footer>
+</body>
+</html>

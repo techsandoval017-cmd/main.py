@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S-Prime Aero | Radar de Vuelos en Vivo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: #03070b; color: #fff; font-family: 'Rajdhani', sans-serif; margin: 0; padding: 25px 15px; text-align: center; border-top: 4px solid #00d2ff; }
+        h1 { color: #00d2ff; font-size: 2.6rem; text-transform: uppercase; margin-bottom: 5px; text-shadow: 0 0 15px rgba(0,210,255,0.4); }
+        p.sub { color: #7f9fae; font-size: 1.1rem; margin-bottom: 25px; }
+        .search-panel { background: #09121a; border: 1px solid #1a3245; padding: 20px; border-radius: 8px; max-width: 950px; margin: 0 auto 25px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+        input { background: #0f1c26; border: 1px solid #23425a; color: #fff; padding: 12px; border-radius: 4px; font-size: 1.1rem; font-family: inherit; }
+        input:focus { border-color: #00d2ff; outline: none; }
+        .btn-search { background: #00d2ff; color: #000; border: none; padding: 12px 30px; font-weight: bold; font-size: 1.1rem; border-radius: 4px; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
+        .btn-search:hover { background: #fff; box-shadow: 0 0 15px rgba(0,210,255,0.6); }
+        .results-container { max-width: 950px; margin: 0 auto; text-align: left; }
+        .route-card { background: #09121a; border: 1px solid #193245; border-left: 4px solid #00d2ff; border-radius: 6px; padding: 20px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .route-info h3 { margin: 0; font-size: 1.6rem; color: #fff; }
+        .route-info p { margin: 4px 0 0; color: #8ba7b8; font-size: 0.95rem; }
+        .badge { display: inline-block; padding: 3px 8px; font-size: 0.75rem; border-radius: 3px; font-weight: bold; margin-bottom: 6px; }
+        .badge-navidad { background: rgba(255,0,60,0.2); color: #ff003c; border: 1px solid #ff003c; }
+        .badge-normal { background: rgba(57,255,20,0.15); color: #39ff14; border: 1px solid #39ff14; }
+        .price-tag { text-align: right; }
+        .price-tag h2 { margin: 0; font-size: 2.2rem; color: #00d2ff; font-family: 'JetBrains Mono', monospace; }
+        .price-tag small { color: #8ba7b8; font-size: 0.8rem; display: block; }
+        .btn-book { background: #00d2ff; color: #000; padding: 10px 20px; border-radius: 4px; text-decoration: none; display: inline-block; margin-top: 8px; font-weight: bold; text-transform: uppercase; font-size: 0.95rem; transition: 0.2s; }
+        .btn-book:hover { background: #fff; }
+        .season-alert { background: #131d27; border: 1px dashed #00d2ff; padding: 12px; border-radius: 6px; margin-bottom: 20px; font-size: 0.95rem; color: #9bc0d5; text-align: left; }
+    </style>
+</head>
+<body>
+    <h1>S-PRIME AERO // RADAR TÁCTICO DE VUELOS</h1>
+    <p class="sub">Telemetría de tarifas dinámicas con impacto estacional en vivo</p>
+
+    <div class="search-panel">
+        <input type="text" id="origen" value="Mexicali" placeholder="Ciudad de Origen" style="flex:1; min-width:160px;">
+        <input type="text" id="destino" value="Mazatlán" placeholder="Ciudad de Destino" style="flex:1; min-width:160px;">
+        <input type="date" id="fecha" value="2026-12-24" style="min-width:150px;">
+        <button class="btn-search" type="button" onclick="ejecutarBusqueda()">Escanear Vuelos</button>
+    </div>
+
+    <div class="results-container">
+        <div id="seasonNotice" class="season-alert" style="display:none;"></div>
+        <h3 id="tituloResultados" style="color:#00d2ff; margin-bottom:15px; border-bottom:1px solid #1a3245; padding-bottom:8px;">Vuelos Detectados</h3>
+        <div id="listaVuelos"></div>
+    </div>
+
+    <script>
+        const IATA_MAP = {
+            "MEXICALI": "MXL",
+            "TIJUANA": "TIJ",
+            "MAZATLAN": "MZT",
+            "CANCUN": "CUN",
+            "GUADALAJARA": "GDL",
+            "CIUDAD DE MEXICO": "MEX",
+            "CDMX": "MEX",
+            "MONTERREY": "MTY",
+            "HERMOSILLO": "HMO",
+            "MADRID": "MAD",
+            "BUCAREST": "OTP"
+        };
+
+        function cleanText(t) {
+            return (t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toUpperCase();
+        }
+
+        function getIATA(ciudad) {
+            const c = cleanText(ciudad);
+            return IATA_MAP[c] || c.substring(0, 3);
+        }
+
+        function calcularPrecioEstimado(origen, destino, fechaStr) {
+            const f = new Date(fechaStr + "T00:00:00");
+            const mes = f.getMonth() + 1;
+            const dia = f.getDate();
+
+            const oIata = getIATA(origen);
+            const dIata = getIATA(destino);
+            const esInternacional = ["MAD", "OTP"].includes(oIata) || ["MAD", "OTP"].includes(dIata);
+
+            let precioBase = esInternacional ? 520 : 75;
+            let multiplicador = 1.0;
+            let esTemporadaAlta = false;
+            let motivoTemporada = "";
+
+            if (mes === 12 && dia >= 15) {
+                multiplicador = 3.2;
+                esTemporadaAlta = true;
+                motivoTemporada = "TEMPORADA ALTA: Fiestas Decembrinas / Navidad (Demanda Extrema)";
+            } else if (mes === 12 && dia < 15) {
+                multiplicador = 1.8;
+                motivoTemporada = "Inicio de temporada decembrina";
+            } else if (mes === 7 || mes === 8) {
+                multiplicador = 1.6;
+                motivoTemporada = "Vacaciones de Verano";
+            } else if (mes === 4) {
+                multiplicador = 1.7;
+                motivoTemporada = "Semana Santa";
+            } else {
+                multiplicador = 1.0;
+                motivoTemporada = "Temporada Regular / Baja";
+            }
+
+            const total = Math.round(precioBase * multiplicador);
+            return { total, esTemporadaAlta, motivoTemporada, oIata, dIata };
+        }
+
+        function ejecutarBusqueda() {
+            const o = document.getElementById('origen').value.trim();
+            const d = document.getElementById('destino').value.trim();
+            const f = document.getElementById('fecha').value || "2026-12-24";
+
+            const calculo = calcularPrecioEstimado(o, d, f);
+
+            const notice = document.getElementById('seasonNotice');
+            notice.style.display = "block";
+            notice.innerHTML = `⚠️ <b>Aviso de Tarifa Dinámica:</b> ${calculo.motivoTemporada}. La fecha ${f} impacta el costo por alta ocupación.`;
+
+            document.getElementById('tituloResultados').innerText = `Ruta: ${o.toUpperCase()} (${calculo.oIata}) ➔ ${d.toUpperCase()} (${calculo.dIata})`;
+
+            const urlGFlights = `https://www.google.com/travel/flights?q=Vuelos%20de%20${calculo.oIata}%20a%20${calculo.dIata}%20el%20${f}`;
+
+            const badgeClase = calculo.esTemporadaAlta ? "badge-navidad" : "badge-normal";
+            const badgeTexto = calculo.esTemporadaAlta ? "ALTA DEMANDA DECEMBRINA" : "TARIFA REGULAR";
+
+            const html = `
+                <div class="route-card">
+                    <div class="route-info">
+                        <span class="badge ${badgeClase}">${badgeTexto}</span>
+                        <h3>${o.toUpperCase()} (${calculo.oIata}) ➔ ${d.toUpperCase()} (${calculo.dIata})</h3>
+                        <p>Fecha programada: <b>${f}</b> | Aerolíneas: Volaris / Viva / Aeroméxico</p>
+                        <p style="color:#7f9fae; font-size:0.85rem;">Incluye estimación de TUA e incremento estacional de mercado.</p>
+                    </div>
+                    <div class="price-tag">
+                        <small>Desde aprox.</small>
+                        <h2>$${calculo.total} USD</h2>
+                        <a href="${urlGFlights}" target="_blank" rel="noopener noreferrer" class="btn-book">Ver Tarifas en Vivo</a>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('listaVuelos').innerHTML = html;
+        }
+
+        window.addEventListener('DOMContentLoaded', ejecutarBusqueda);
+    </script>
+</body>
+</html>

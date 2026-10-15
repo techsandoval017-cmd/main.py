@@ -17,3 +17,5 @@ credenciales_maestras.env
 *.log
 __pycache__/
 >>>>>>> dd4d7f84fa9996d9f1903c15e050576fbed165ff
+*.env
+credenciales*.env

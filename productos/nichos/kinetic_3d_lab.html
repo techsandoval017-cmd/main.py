@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S-Prime Kinetic Auto | 3D Custom Lab</title>
+    <!-- Motor Gráfico 3D -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap');
+        
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #050505; font-family: 'Rajdhani', sans-serif; }
+        
+        /* Contenedor del Canvas 3D */
+        #canvas-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        
+        /* Interfaz Midnight Club / S-Prime */
+        #ui-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; pointer-events: none; display: flex; justify-content: space-between; }
+        
+        .panel { background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(10px); border: 1px solid #39ff14; pointer-events: auto; height: 100vh; overflow-y: auto; }
+        
+        /* Panel Izquierdo: Importación y Tienda */
+        .left-panel { width: 320px; border-right: 2px solid #ff4500; padding: 20px; box-sizing: border-box; }
+        .left-panel h1 { color: #fff; font-size: 24px; text-transform: uppercase; margin-top: 0; text-shadow: 0 0 10px #ff4500; }
+        
+        /* Panel Derecho: Customizador 3D */
+        .right-panel { width: 350px; border-left: 2px solid #39ff14; padding: 20px; box-sizing: border-box; }
+        .right-panel h2 { color: #39ff14; font-size: 22px; text-transform: uppercase; text-shadow: 0 0 10px #39ff14; }
+        
+        /* Tarjetas de Producto */
+        .product-card { background: rgba(255,255,255,0.05); border: 1px solid #333; padding: 15px; margin-bottom: 15px; border-radius: 8px; transition: all 0.3s; }
+        .product-card:hover { border-color: #ff4500; box-shadow: 0 0 15px rgba(255, 69, 0, 0.3); }
+        .product-card h3 { color: #fff; margin: 0 0 10px 0; font-size: 18px; }
+        .product-card .price { color: #39ff14; font-size: 20px; font-weight: bold; margin-bottom: 10px; display: block; }
+        
+        /* Botones S-Prime */
+        .btn { width: 100%; background: transparent; color: #fff; border: 1px solid #39ff14; padding: 12px; font-family: 'Rajdhani'; font-size: 16px; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.3s; margin-bottom: 10px; }
+        .btn:hover { background: #39ff14; color: #000; box-shadow: 0 0 20px #39ff14; }
+        .btn-import { border-color: #ff4500; }
+        .btn-import:hover { background: #ff4500; color: #fff; box-shadow: 0 0 20px #ff4500; }
+        
+        /* Opciones de Color (Customizador) */
+        .color-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+        .color-swatch { width: 100%; height: 40px; border-radius: 4px; cursor: pointer; border: 2px solid transparent; transition: 0.3s; }
+        .color-swatch:hover { transform: scale(1.1); border-color: #fff; }
+        
+        /* Marca de Agua Central */
+        .watermark { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); text-align: center; pointer-events: none; }
+        .watermark h3 { color: rgba(255,255,255,0.2); font-size: 30px; letter-spacing: 10px; margin: 0; }
+    </style>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+
+    <div id="ui-layer">
+        <!-- TIENDA DE IMPORTACIÓN -->
+        <div class="panel left-panel">
+            <h1>Kinetic Import Hub</h1>
+            <p style="color:#aaa;">Piezas OEM Chinas (Motor 162FMJ / FT150)</p>
+            
+            <div class="product-card">
+                <h3>Kit de Cilindro Completo (Top-End)</h3>
+                <span class="price">$75.00 USD</span>
+                <p style="color:#888; font-size:14px; margin-top:0;">Incluye cilindro, pistón, anillos y perno.</p>
+                <button class="btn btn-import" onclick="alert('Conectando a pasarela de pago (Shopify)...')">Importar Pieza</button>
+            </div>
+
+            <div class="product-card">
+                <h3>Cabeza de Motor ENS</h3>
+                <span class="price">$55.00 USD</span>
+                <p style="color:#888; font-size:14px; margin-top:0;">Válvulas instaladas. Lista para montar.</p>
+                <button class="btn btn-import" onclick="alert('Conectando a pasarela de pago (Shopify)...')">Importar Pieza</button>
+            </div>
+            
+            <button class="btn" style="border-color: #555; color: #aaa;">Solicitar Crédito Tech</button>
+        </div>
+
+        <!-- CONFIGURADOR 3D -->
+        <div class="panel right-panel">
+            <h2>Garage Rango S</h2>
+            <p style="color:#aaa;">Personaliza tu ensamble antes de encargar.</p>
+            
+            <h3 style="color:#fff; margin-top:30px;">Color de Tanque y Tapas</h3>
+            <div class="color-grid">
+                <div class="color-swatch" style="background: #2a2a2a;" onclick="changeColor(0x2a2a2a)"></div> <!-- Grafito -->
+                <div class="color-swatch" style="background: #ff0000;" onclick="changeColor(0xff0000)"></div> <!-- Rojo Akatsuki -->
+                <div class="color-swatch" style="background: #39ff14;" onclick="changeColor(0x39ff14)"></div> <!-- Verde Neón -->
+                <div class="color-swatch" style="background: #0044ff;" onclick="changeColor(0x0044ff)"></div> <!-- Azul Ciber -->
+            </div>
+
+            <h3 style="color:#fff; margin-top:20px;">Estilo de Asiento</h3>
+            <button class="btn">Grip Deportivo</button>
+            <button class="btn">Café Racer (Piel Negra)</button>
+
+            <h3 style="color:#fff; margin-top:20px;">Llantas y Rines</h3>
+            <button class="btn">Rines Estrella (Stock)</button>
+            <button class="btn">Rines de Rayos Supermoto</button>
+            
+            <div style="margin-top: 40px;">
+                <button class="btn btn-import" style="background: rgba(57, 255, 20, 0.1);">Guardar Diseño y Encargar Todo</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="watermark">
+        <h3>S-PRIME AUTO LABS</h3>
+    </div>
+
+    <!-- LÓGICA DEL MOTOR 3D -->
+    <script>
+        let scene, camera, renderer, motoModel, controls;
+        let time = 0;
+
+        function init3D() {
+            const container = document.getElementById('canvas-container');
+            
+            // 1. Escena y Niebla (Atmósfera Smart Space)
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x050505, 0.02);
+
+            // 2. Cámara
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.set(3, 1.5, 4);
+
+            // 3. Renderizador
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.outputEncoding = THREE.sRGBEncoding;
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            container.appendChild(renderer.domElement);
+
+            // 4. Luces (Estilo Itachi/Kinetic)
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+            scene.add(ambientLight);
+
+            const neonGreen = new THREE.PointLight(0x39ff14, 2, 10);
+            neonGreen.position.set(-2, 2, 2);
+            scene.add(neonGreen);
+
+            const neonRed = new THREE.PointLight(0xff0000, 2, 10);
+            neonRed.position.set(2, 2, -2);
+            scene.add(neonRed);
+
+            const topLight = new THREE.SpotLight(0xffffff, 1);
+            topLight.position.set(0, 5, 0);
+            topLight.angle = Math.PI/4;
+            topLight.penumbra = 0.5;
+            scene.add(topLight);
+
+            // 5. Controles de Órbita
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.maxPolarAngle = Math.PI / 2 + 0.1; // No ver por debajo del piso
+            controls.target.set(0, 0.5, 0);
+
+            // 6. Entorno Smart Space (Rejilla Holográfica Cyberpunk)
+            const gridHelper = new THREE.GridHelper(20, 40, 0x39ff14, 0x222222);
+            gridHelper.position.y = -1;
+            scene.add(gridHelper);
+
+            // 7. Carga de Modelo 3D (Placeholder hasta que pongas el tuyo)
+            // *NOTA PARA EL DIRECTOR: Aquí cargaremos tus archivos .glb o .gltf
+            // de la moto y de las figuras 3D de repisa.*
+            const geometry = new THREE.BoxGeometry(2, 1, 0.8);
+            const material = new THREE.MeshStandardMaterial({ 
+                color: 0x2a2a2a, 
+                metalness: 0.8, 
+                roughness: 0.2 
+            });
+            motoModel = new THREE.Mesh(geometry, material);
+            scene.add(motoModel);
+
+            animate();
+        }
+
+        // Función para cambiar colores dinámicamente desde el menú
+        function changeColor(hexColor) {
+            if(motoModel) {
+                // Si fuera un modelo GLTF real, recorreríamos sus meshes hijos
+                motoModel.material.color.setHex(hexColor);
+            }
+        }
+
+        // Bucle de Animación (Efecto Rick Sanchez: Levitación y Rotación)
+        function animate() {
+            requestAnimationFrame(animate);
+            time += 0.02;
+
+            if (motoModel) {
+                // Levitación suave (Arriba y abajo)
+                motoModel.position.y = Math.sin(time) * 0.1;
+                // Rotación levísima para lucir ángulos
+                motoModel.rotation.y = Math.sin(time * 0.5) * 0.2;
+            }
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        // Adaptar a pantalla
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        init3D();
+    </script>
+</body>
+</html>
+
