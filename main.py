@@ -5,20 +5,32 @@ import os
 
 app = FastAPI()
 
-# Directorio base absoluto
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-def montar_ruta(ruta_url, carpeta_local):
-    ruta_completa = os.path.join(BASE_DIR, carpeta_local)
-    if os.path.exists(ruta_completa):
-        app.mount(ruta_url, StaticFiles(directory=ruta_completa, html=True), name=carpeta_local)
+def montar(ruta, carpeta):
+    # Intenta en el directorio actual
+    path = os.path.join(BASE_DIR, carpeta)
+    if os.path.exists(path):
+        app.mount(ruta, StaticFiles(directory=path, html=True), name=carpeta)
+        return True
+    # Intenta un nivel arriba (por si Railway ejecuta desde otra carpeta)
+    path_up = os.path.join(os.path.dirname(BASE_DIR), carpeta)
+    if os.path.exists(path_up):
+        app.mount(ruta, StaticFiles(directory=path_up, html=True), name=carpeta)
+        return True
+    return False
 
-# Montar los ecosistemas
-montar_ruta('/panel', 'panel_maestro')
-montar_ruta('/tier2', 'entregables_reales')
-montar_ruta('/tier3', 'entregables_reales/tier3_enterprise')
-montar_ruta('/productos', 'productos')
+panel_ok = montar('/panel', 'panel_maestro')
+montar('/tier2', 'entregables_reales')
+montar('/tier3', 'entregables_reales/tier3_enterprise')
+montar('/productos', 'productos')
 
 @app.get("/")
 def raiz():
-    return RedirectResponse(url="/panel/")
+    if panel_ok:
+        return RedirectResponse(url="/panel/")
+    return {
+        "estado": "ALERTA: Carpetas no encontradas",
+        "directorio_base": BASE_DIR,
+        "archivos_detectados": os.listdir(BASE_DIR)
+    }
