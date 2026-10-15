@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>S-Prime Vulcan | Manager</title>
+    <style>
+        body { background: #111; color: #fff; font-family: monospace; padding: 20px; }
+        h1 { color: #ff3300; border-bottom: 1px solid #ff3300; }
+        .panel { background: #222; padding: 20px; border: 1px dashed #ff3300; }
+        input, button { padding: 10px; margin: 5px; background: #000; color: #fff; border: 1px solid #ff3300; }
+        button { background: #ff3300; color: #000; font-weight: bold; cursor: pointer;}
+    </style>
+</head>
+<body>
+    <h1>⚙️ S-PRIME VULCAN MANAGER</h1>
+    <div class="panel">
+        <h3>Cotizador de Servicio Rápido</h3>
+        <input type="text" id="rodado" placeholder="Rodado (Ej. 15, 17, 20)">
+        <input type="number" id="parches" placeholder="Llantas a parchar">
+        <input type="number" id="balanceos" placeholder="Llantas a balancear">
+        <button onclick="calcularServicio()">Generar Ticket</button>
+        <p id="ticket" style="color: #00ffcc; font-size: 1.2em; white-space: pre-line;"></p>
+    </div>
+    <script>
+        function calcularServicio() {
+            let parches = document.getElementById('parches').value * 80; // $80 parche
+            let balanceos = document.getElementById('balanceos').value * 120; // $120 balanceo
+            let total = parches + balanceos;
+            document.getElementById('ticket').innerText = 
+                `Costo Parches: $${parches}
+Costo Balanceo: $${balanceos}
+----------------
+TOTAL A COBRAR: $${total}`;
+        }
+    </script>
+</body>
+</html>

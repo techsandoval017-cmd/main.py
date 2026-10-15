@@ -1,0 +1,9 @@
+Handle,Title,Body (HTML),Vendor,Type,Tags,Published,Variant Price,Variant Compare At Price,Variant Inventory Tracker,Variant Inventory Qty
+soft-reposteria,S-Prime Costing App (Dark Kitchens),Software de costeo exacto y gestión de inventario.,S-Prime Corp,SaaS,"Software, Tier2, Reposteria",TRUE,999,,,
+soft-impresion3d,S-Prime Print Manager,Gestor de colas de impresión y cálculo de filamento.,S-Prime Corp,SaaS,"Software, Tier2, 3D",TRUE,1200,,,
+soft-mecanica,TechRepair Lab OS (Taller Auto/Motos),"Sistema de diagnóstico, citas y refacciones.",S-Prime Corp,SaaS,"Software, Tier2, Mecanica",TRUE,1499,,,
+soft-barberia,S-Prime Agenda VIP (Barberías),"Software de reservas, comisiones y control de caja.",S-Prime Corp,SaaS,"Software, Tier2, Barberia",TRUE,899,,,
+hard-3d,Kit S-Prime 3D Forge (Impresora + Filamento),Estación de trabajo inicial para impresión 3D.,S-Prime Corp,Hardware,"Fisico, Tier3, 3D",TRUE,5500,,shopify,10
+hard-smartspace,S-Prime Desk Organizer (Jinwoo Edition),Organizador premium impreso en 3D con luces LED.,S-Prime Corp,Hardware,"Fisico, Tier3, Domotica",TRUE,2500,,shopify,50
+hard-mecanica,Kit Diagnóstico OBD2 + Multímetro Automotriz,Hardware para escaneo y reparación electrónica.,S-Prime Corp,Hardware,"Fisico, Tier3, Mecanica",TRUE,3800,,shopify,15
+hard-celulares,Estación de Microsoldadura S-Prime,"Cautín de precisión, microscopio y plancha de calor.",S-Prime Corp,Hardware,"Fisico, Tier3, Electronica",TRUE,4200,,shopify,20

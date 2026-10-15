@@ -1,0 +1,18 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>S-Prime Iron | Cotizador</title>
+<style>body{background:#1a1a1a;color:#fff;font-family:monospace;padding:20px;} h1{color:#ff5500;border-bottom:1px solid #ff5500;} input,button{padding:10px;margin:5px;background:#000;color:#fff;border:1px solid #ff5500;} button{background:#ff5500;color:#000;font-weight:bold;cursor:pointer;}</style></head>
+<body><h1>🔥 S-PRIME IRON WORKS - COTIZADOR</h1>
+<h3>Proyecto Estructural / Herrería</h3>
+<input type="number" id="mat" placeholder="Costo Materiales (Metales/Electrodos) $">
+<input type="number" id="dias" placeholder="Días estimados de trabajo">
+<input type="number" id="pago_dia" placeholder="Cobro por día (Mano de obra) $">
+<button onclick="calc()">Generar Presupuesto</button>
+<p id="res" style="color:#00ffcc;font-size:1.2em;"></p>
+<script>
+function calc(){
+    let mat = parseFloat(document.getElementById('mat').value);
+    let obra = document.getElementById('dias').value * document.getElementById('pago_dia').value;
+    let subtotal = mat + obra;
+    let total = subtotal * 1.30; // 30% margen de ganancia del taller
+    document.getElementById('res').innerText = `Material: $${mat} | Mano Obra: $${obra} | PRESUPUESTO CLIENTE: $${total.toFixed(2)}`;
+}
+</script></body></html>

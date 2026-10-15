@@ -1,0 +1,15 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>S-Prime 3D Forge</title>
+<style>body{background:#110022;color:#fff;font-family:monospace;padding:20px;} h1{color:#cc00ff;border-bottom:1px solid #cc00ff;} input,button{padding:10px;margin:5px;background:#000;color:#fff;border:1px solid #cc00ff;} button{background:#cc00ff;color:#000;font-weight:bold;cursor:pointer;}</style></head>
+<body><h1>🧊 S-PRIME 3D FORGE - PRINT CALCULATOR</h1>
+<input type="number" id="gramos" placeholder="Gramos de Filamento (Cura)">
+<input type="number" id="horas" placeholder="Horas de Impresión">
+<button onclick="calc()">Calcular Costo Final</button>
+<p id="res" style="color:#00ffcc;font-size:1.2em;"></p>
+<script>
+function calc(){
+    let costo_mat = document.getElementById('gramos').value * 0.40; // $0.40 por gramo aprox
+    let costo_luz_desgaste = document.getElementById('horas').value * 10; // $10 por hora
+    let costo_total = costo_mat + costo_luz_desgaste;
+    document.getElementById('res').innerText = `Costo Producción: $${costo_total.toFixed(2)} | Véndelo en: $${(costo_total * 4).toFixed(2)}`;
+}
+</script></body></html>

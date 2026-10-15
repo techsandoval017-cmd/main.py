@@ -1,0 +1,18 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>S-Prime Wood | Optimizador</title>
+<style>body{background:#2c221a;color:#fff;font-family:monospace;padding:20px;} h1{color:#ffaa00;border-bottom:1px solid #ffaa00;} input,button{padding:10px;margin:5px;background:#1a140f;color:#fff;border:1px solid #ffaa00;} button{background:#ffaa00;color:#000;font-weight:bold;cursor:pointer;}</style></head>
+<body><h1>🪚 S-PRIME WOODCRAFT - MELAMINA</h1>
+<h3>Cotizador de Muebles a Medida</h3>
+<input type="number" id="hojas" placeholder="Hojas de Melamina">
+<input type="number" id="precio_hoja" placeholder="Precio x Hoja $">
+<input type="number" id="herrajes" placeholder="Costo Total Herrajes (Bisagras/Rieles) $">
+<button onclick="calc()">Calcular Mueble</button>
+<p id="res" style="color:#00ffcc;font-size:1.2em;"></p>
+<script>
+function calc(){
+    let costo_tableros = document.getElementById('hojas').value * document.getElementById('precio_hoja').value;
+    let herr = parseFloat(document.getElementById('herrajes').value);
+    let costo_base = costo_tableros + herr;
+    let precio_venta = costo_base * 2.5; // Regla general de carpintería
+    document.getElementById('res').innerText = `Costo Producción: $${costo_base} | PRECIO AL CLIENTE: $${precio_venta.toFixed(2)} | Tu Ganancia: $${(precio_venta - costo_base).toFixed(2)}`;
+}
+</script></body></html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>S-Prime Bakery | Costeos</title>
+    <style>
+        body { background: #1a1015; color: #fff; font-family: monospace; padding: 20px; }
+        h1 { color: #ff66b2; border-bottom: 1px solid #ff66b2; }
+        .panel { background: #2a1a22; padding: 20px; border: 1px solid #4a2a3a; }
+        input, button { padding: 10px; margin: 5px; background: #000; color: #fff; border: 1px solid #ff66b2; }
+        button { background: #ff66b2; color: #000; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🍰 S-PRIME COSTEO EXACTO (Bento Cakes / Galletas)</h1>
+    <div class="panel">
+        <h3>Cotizador de Receta</h3>
+        <input type="number" id="costo_insumos" placeholder="Costo total ingredientes ($)">
+        <input type="number" id="tiempo_horas" placeholder="Horas de trabajo">
+        <input type="number" id="pago_hora" placeholder="Tu pago por hora ($)">
+        <button onclick="calcularPrecio()">Fijar Precio de Venta</button>
+        <p id="res" style="color: #00ffcc; font-size: 1.2em;"></p>
+    </div>
+    <script>
+        function calcularPrecio() {
+            let insumos = parseFloat(document.getElementById('costo_insumos').value);
+            let horas = parseFloat(document.getElementById('tiempo_horas').value);
+            let pago = parseFloat(document.getElementById('pago_hora').value);
+            let costo_produccion = insumos + (horas * pago);
+            let precio_venta = costo_produccion * 3; // Regla de 3 en repostería
+            document.getElementById('res').innerText = 
+                `Costo Real: $${costo_produccion} | Precio Sugerido de Venta: $${precio_venta} | Ganancia Neta: $${precio_venta - costo_produccion}`;
+        }
+    </script>
+</body>
+</html>

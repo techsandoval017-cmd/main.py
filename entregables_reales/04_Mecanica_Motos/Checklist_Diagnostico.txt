@@ -1,0 +1,5 @@
+S-PRIME KINETIC MOTOS - CHECKLIST DE INGRESO
+[ ] Voltaje de Batería (Min 12.4V)
+[ ] Estado de Bujías
+[ ] Tensión de Cadena
+[ ] Fugas en Retenes de Suspensión

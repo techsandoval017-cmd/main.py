@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 from fastapi import FastAPI, Request, Header, HTTPException
+from fastapi.staticfiles import StaticFiles
 import os
 import sqlite3
 import stripe
@@ -326,3 +327,7 @@ async def stripe_webhook(request: Request, stripe_signature: str = Header(None))
 
     return {"status": "success"}
 >>>>>>> dd4d7f84fa9996d9f1903c15e050576fbed165ff
+
+
+# Montaje de la suite publica S-Prime Tier 2
+app.mount('/tier2', StaticFiles(directory='entregables_reales', html=True), name='tier2')

@@ -1,0 +1,107 @@
+import os
+
+ruta = "entregables_reales/01_Barberia_VIP/SPrime_Barber_Booking.html"
+os.makedirs(os.path.dirname(ruta), exist_ok=True)
+
+html_booking = """<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S-Prime Barber | Booking Anti-Fantasmas</title>
+    <style>
+        body { background: #0d0d0d; color: #fff; font-family: 'Courier New', monospace; padding: 15px; margin: 0; }
+        h1 { color: #d4af37; border-bottom: 2px solid #d4af37; padding-bottom: 10px; text-transform: uppercase; font-size: 1.5em; text-align: center; }
+        .panel { background: #1a1a1a; padding: 20px; border: 1px solid #333; border-radius: 8px; max-width: 500px; margin: 0 auto; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2); }
+        label { display: block; margin-top: 15px; color: #aaa; font-weight: bold; }
+        input, select { width: 100%; padding: 10px; margin-top: 5px; background: #222; color: #fff; border: 1px solid #d4af37; border-radius: 4px; box-sizing: border-box; }
+        .btn { width: 100%; padding: 15px; margin-top: 25px; background: #25D366; color: #000; font-weight: bold; font-size: 1.1em; border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+        .btn:hover { background: #1ebe57; }
+        .resumen { margin-top: 20px; padding: 15px; background: #000; border-left: 4px solid #d4af37; display: none; }
+    </style>
+</head>
+<body>
+    <h1>💈 S-PRIME BARBER BOOKING</h1>
+    <div class="panel">
+        <p style="text-align: center; color: #888; font-size: 0.9em;">Sistema de Cotización y Reserva VIP</p>
+        
+        <label>Nombre del Cliente:</label>
+        <input type="text" id="nombre" placeholder="Ej. Carlos Martínez">
+        
+        <label>Selecciona tu Servicio / Paquete:</label>
+        <select id="servicio">
+            <option value="200">Corte Clásico ($200)</option>
+            <option value="350">Corte + Barba Trim ($350)</option>
+            <option value="550">Paquete Ejecutivo: Corte + Barba + Mascarilla ($550)</option>
+        </select>
+        
+        <label>Agregar Insumos / Extras:</label>
+        <select id="extras">
+            <option value="0">Ninguno</option>
+            <option value="250">Frasco Minoxidil 5% ($250)</option>
+            <option value="180">Pomada Moldeadora Premium ($180)</option>
+            <option value="430">Kit Completo: Minoxidil + Pomada ($430)</option>
+        </select>
+
+        <label>Fecha y Hora Deseada:</label>
+        <input type="datetime-local" id="fecha">
+        
+        <label>Teléfono del Barbero (Para enviar WhatsApp):</label>
+        <input type="text" id="telefono" placeholder="Ej. 521234567890">
+
+        <button class="btn" onclick="generarReserva()">Generar Cita por WhatsApp</button>
+
+        <div id="resumen" class="resumen">
+            <h3 style="color: #d4af37; margin-top: 0;">Resumen del Ticket:</h3>
+            <p id="txt-total"></p>
+            <p id="txt-anticipo" style="color: #ff4500; font-weight: bold;"></p>
+        </div>
+    </div>
+
+    <script>
+        function generarReserva() {
+            let nombre = document.getElementById('nombre').value;
+            let valServicio = parseFloat(document.getElementById('servicio').value);
+            let valExtras = parseFloat(document.getElementById('extras').value);
+            let textoServicio = document.getElementById('servicio').options[document.getElementById('servicio').selectedIndex].text;
+            let textoExtras = document.getElementById('extras').options[document.getElementById('extras').selectedIndex].text;
+            let fechaRaw = document.getElementById('fecha').value;
+            let telefono = document.getElementById('telefono').value;
+
+            if(!nombre || !fechaRaw || !telefono) {
+                alert("Por favor, completa Nombre, Fecha y Teléfono del Barbero.");
+                return;
+            }
+
+            let fechaFormat = new Date(fechaRaw).toLocaleString('es-MX', { dateStyle: 'full', timeStyle: 'short' });
+            let total = valServicio + valExtras;
+            let anticipo = total / 2; // 50% de anticipo obligatorio
+
+            document.getElementById('resumen').style.display = "block";
+            document.getElementById('txt-total').innerText = "Total a Pagar: $" + total + " MXN";
+            document.getElementById('txt-anticipo').innerText = "Anticipo Requerido (50%): $" + anticipo + " MXN";
+
+            let mensaje = `*NUEVA SOLICITUD DE CITA VIP* 💈%0A%0A`;
+            mensaje += `*Cliente:* ${nombre}%0A`;
+            mensaje += `*Fecha:* ${fechaFormat}%0A`;
+            mensaje += `*Paquete:* ${textoServicio}%0A`;
+            mensaje += `*Extras:* ${textoExtras}%0A`;
+            mensaje += `--------------------------%0A`;
+            mensaje += `*Total:* $${total} MXN%0A`;
+            mensaje += `*Anticipo Necesario (50%):* $${anticipo} MXN%0A%0A`;
+            mensaje += `_Por favor envíame tus datos de cuenta o enlace de Mercado Pago para transferir el anticipo y asegurar mi espacio._`;
+
+            let urlWa = `https://wa.me/${telefono}?text=${mensaje}`;
+            
+            // Abre WhatsApp automáticamente
+            window.open(urlWa, '_blank');
+        }
+    </script>
+</body>
+</html>"""
+
+with open(ruta, "w", encoding="utf-8") as f:
+    f.write(html_booking)
+
+print("✅ S-Prime Barber Booking (Anti-Fantasmas) generado con éxito.")
+print("Ruta: " + ruta)

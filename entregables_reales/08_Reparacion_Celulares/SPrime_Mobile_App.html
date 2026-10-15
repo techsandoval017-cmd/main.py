@@ -1,0 +1,15 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>S-Prime PC Builder</title>
+<style>body{background:#001122;color:#fff;font-family:monospace;padding:20px;} h1{color:#00ccff;border-bottom:1px solid #00ccff;} select,button{padding:10px;margin:5px;background:#000;color:#fff;border:1px solid #00ccff;} button{background:#00ccff;color:#000;font-weight:bold;cursor:pointer;}</style></head>
+<body><h1>💻 S-PRIME MOBILE TECH - TICKET GENERATOR</h1>
+<h3>Selecciona Servicios:</h3>
+<select id="serv1"><option value="0">Ninguno</option><option value="400">Cambio Centro de Carga ($350)</option><option value="600">Cambio Pantalla Gral ($1200)</option></select>
+<select id="serv2"><option value="0">Ninguno</option><option value="800">Microsoldadura SMD ($900)</option><option value="1500">Rescate por Agua ($800)</option></select>
+<button onclick="calc()">Emitir Ticket</button>
+<p id="res" style="color:#00ffcc;font-size:1.2em;"></p>
+<script>
+function calc(){
+    let s1 = parseFloat(document.getElementById('serv1').value);
+    let s2 = parseFloat(document.getElementById('serv2').value);
+    document.getElementById('res').innerText = `TOTAL SERVICIOS: $${s1 + s2} MXN`;
+}
+</script></body></html>
