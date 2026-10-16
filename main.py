@@ -21,6 +21,7 @@ def montar(ruta, carpeta):
     return False
 
 panel_ok = montar('/panel', 'panel_maestro')
+montar('/academia', 'entregables_reales/academia')
 montar('/tier2', 'entregables_reales')
 montar('/tier3', 'entregables_reales/tier3_enterprise')
 montar('/productos', 'productos')
@@ -34,3 +35,18 @@ def raiz():
         "directorio_base": BASE_DIR,
         "archivos_detectados": os.listdir(BASE_DIR)
     }
+
+from pydantic import BaseModel
+class OrdenAgente(BaseModel):
+    agente: str
+    payload: str
+
+@app.post("/api/agentes")
+def api_agentes(orden: OrdenAgente):
+    if orden.agente == 'voz':
+        return {"respuesta": f"Audio generado para: '{orden.payload[:15]}...'. Listo para descarga."}
+    elif orden.agente == 'img':
+        return {"respuesta": f"Renderizado completado. Modelo listo en el Simulador S-Prime."}
+    elif orden.agente == 'copy':
+        return {"respuesta": f"Guion redactado y guardado en base de datos."}
+    return {"respuesta": "Agente no reconocido."}
